@@ -92,7 +92,7 @@ export const AccessLogProvider: React.FC<AccessLogProviderProps> = ({ children }
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [token]);
 
 
   useEffect(() => {
