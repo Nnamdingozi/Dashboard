@@ -53,7 +53,7 @@
 
 'use client';
 
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUserContext } from '@/app/context/userContext';
 import UserView from '@/app/components/User/UserView';
 
@@ -63,7 +63,6 @@ export default function ViewUserPage({
   params: Promise<{ id: string }>;
 }) {
   const { fetchUserById, userById, loading, error } = useUserContext();
-
   const [id, setId] = useState<string | null>(null);
 
   // Unwrap params only once
@@ -71,15 +70,12 @@ export default function ViewUserPage({
     paramsPromise.then(({ id }) => setId(id));
   }, [paramsPromise]);
 
-  const fetchData = useCallback(async () => {
+  // Fetch data whenever `id` changes
+  useEffect(() => {
     if (id) {
-      await fetchUserById(id);
+      fetchUserById(id);
     }
   }, [id, fetchUserById]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
 
   if (loading) {
     return <div>Loading...</div>;

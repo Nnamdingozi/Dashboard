@@ -70,7 +70,7 @@
 
 'use client';
 
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import AccessLogView from '@/app/components/AccessLog/AccessLogView';
 import { useAccessLogContext } from '@/app/context/accesslogContext';
 import { useUserContext } from '@/app/context/userContext';
@@ -84,36 +84,26 @@ export default function AccessLogViewPage({
   const { getLogById, loading, error, accessLog } = useAccessLogContext();
 
   // Extract `id` from the promise only once
-  const [id, setId] = React.useState<string | null>(null);
+  const [id, setId] = useState<string | null>(null);
 
   useEffect(() => {
     paramsPromise.then(({ id }) => setId(id));
   }, [paramsPromise]);
 
-  // Memoized function to fetch the access log
-  const fetchLog = useCallback(async () => {
+  // Fetch the access log when `id` changes
+  useEffect(() => {
     if (id) {
-      await getLogById(id); // Fetch the access log by id
+      getLogById(id); // Fetch the access log by id
     }
   }, [id, getLogById]);
 
-  // Memoized function to fetch the user data
-  const fetchuserData = useCallback(async () => {
+  // Fetch the user data when `accessLog.userId` changes
+  useEffect(() => {
     if (accessLog?.userId) {
       const userIdFromLog = accessLog.userId.toString();
-      await fetchUserById(userIdFromLog); // Fetch user details by userId from access log
+      fetchUserById(userIdFromLog); // Fetch user details by userId from access log
     }
   }, [accessLog?.userId, fetchUserById]);
-
-  // Call fetchLog when `id` changes
-  useEffect(() => {
-    fetchLog();
-  }, [fetchLog]);
-
-  // Call fetchuserData when `accessLog.userId` changes
-  useEffect(() => {
-    fetchuserData();
-  }, [fetchuserData]);
 
   if (loading) {
     return <div>Loading...</div>;

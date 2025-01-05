@@ -17,6 +17,8 @@ const EmployeeDashboard = () => {
 
   const handleLogout = () => {
     logout();
+    router.push('/')
+    
   };
 
   const handleEditProfile = () => {
@@ -28,7 +30,8 @@ const EmployeeDashboard = () => {
       {/* Top Buttons */}
       <div className="w-full max-w-6xl flex justify-between mb-6">
         <div>
-          <h1 className="text-4xl font-extrabold text-blue-600">Employee Dashboard</h1>
+          <h2 className="text-4xl font-extrabold text-blue-600">Emmployee's Dashboard</h2>
+          <h2 className="text-4xl font-extrabold text-blue-600">{currentUser.username}'s Dashboard</h2>
         </div>
         <div className="flex gap-4">
           <button
@@ -39,7 +42,7 @@ const EmployeeDashboard = () => {
           </button>
           <button
             onClick={handleLogout}
-            className="bg-red-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
+            className="border-2 border-red-700 text-red-700 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition hover:text-white"
           >
             Logout
           </button>
@@ -51,23 +54,23 @@ const EmployeeDashboard = () => {
         {/* User Profile Section */}
         <div className="flex-1 h-screen">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">User Profile</h2>
-          <div className="h-32 w-32 rounded-full bg-blue-600 text-center mb-16">
-            image
+          <div className="h-64 w-64 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-center mb-16">
           </div>
+
           <div className="ml-20">
-  <p className="text-gray-700 mb-2">
-    <strong>id:</strong> {currentUser?.id || "N/A"}
-  </p>
-  <p className="text-gray-700 mb-2">
-    <strong>Username:</strong> {currentUser?.username || "N/A"}
-  </p>
-  <p className="text-gray-700 mb-2">
-    <strong>Email:</strong> {currentUser?.email || "N/A"}
-  </p>
-  <p className="text-gray-700 mb-2">
-  <strong>Role:</strong> {currentUser?.role || "N/A"}
-  </p>
-</div>
+            <p className="text-gray-700 mb-2">
+              <strong>id:</strong> {currentUser?.id || "N/A"}
+            </p>
+            <p className="text-gray-700 mb-2">
+              <strong>Username:</strong> {currentUser?.username || "N/A"}
+            </p>
+            <p className="text-gray-700 mb-2">
+              <strong>Email:</strong> {currentUser?.email || "N/A"}
+            </p>
+            <p className="text-gray-700 mb-2">
+              <strong>Role:</strong> {currentUser?.role || "N/A"}
+            </p>
+          </div>
 
         </div>
 

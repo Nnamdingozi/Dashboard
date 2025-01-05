@@ -73,7 +73,7 @@ export const AccessLogProvider: React.FC<AccessLogProviderProps> = ({ children }
   }, [token])
   
 
-  const getLogById = async (id: string): Promise<AccessLog | null> => {
+  const getLogById = useCallback(async (id: string): Promise<AccessLog | null> => {
     try {
       setLoading(true);
       setError(null);
@@ -92,7 +92,7 @@ export const AccessLogProvider: React.FC<AccessLogProviderProps> = ({ children }
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
 
   useEffect(() => {

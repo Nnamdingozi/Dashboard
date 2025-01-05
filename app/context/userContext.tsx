@@ -1095,22 +1095,25 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
 
 
-  const fetchUserById = async (id: string): Promise<User | null> => {
-    setLoading(true);
-    setError(null);
+  const fetchUserById = useCallback(
+    async (id: string): Promise<User | null> => {
+      setLoading(true);
+      setError(null);
 
-    try {
-      const fetchedUser = await getUserById(id, token!);
-      setUserById(fetchedUser);
-      localStorage.setItem(`user_${id}`, JSON.stringify(fetchedUser));
-      return fetchedUser;
-    } catch (err) {
-      setErrorFromException(err);
-      return null;
-    } finally {
-      setLoading(false);
-    }
-  };
+      try {
+        const fetchedUser = await getUserById(id, token!);
+        setUserById(fetchedUser);
+        localStorage.setItem(`user_${id}`, JSON.stringify(fetchedUser));
+        return fetchedUser;
+      } catch (err) {
+        setError((err as Error).message || 'An error occurred');
+        return null;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [token] // Dependency ensures `useCallback` is updated only if `token` changes
+  );
 
 
   const registerUser = async (newUser: NewUserRequestBody): Promise<{ userRole: string | null, accessLog: AccessLog | null }> => {
@@ -1212,11 +1215,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
+    router.push('/');
     setCurrentUser(null);
     setToken(null);
     setUsers([]);
     localStorage.clear();
-    router.push('/');
+    
   };
 
   return (
