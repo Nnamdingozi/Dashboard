@@ -40,7 +40,7 @@ export const getUserById = async (id: string, token: string): Promise<User | nul
 };
 
 // Example function to create a new user
-export const createUser = async (user: NewUserRequestBody): Promise<{ user: User; token: string, accessLog: AccessLog }> => {
+export const createUser = async (user: NewUserRequestBody): Promise<{ user: User, updatedUsers: User[], token: string, accessLog: AccessLog }> => {
   try {
     // Validate the input
     const isValidInput = validatePayload(user);
@@ -52,7 +52,7 @@ export const createUser = async (user: NewUserRequestBody): Promise<{ user: User
 
     console.log('Received toke, accesslog and user from mockApi', response.data);
     
-    return { user: response.data.user, token: response.data.token, accessLog: response.data.accessLog };
+    return { user: response.data.user, updatedUsers: response.data.updateUsers, token: response.data.token, accessLog: response.data.accessLog };
 
   } catch (err: unknown) {
     const errorMessage = handleApiError(err);

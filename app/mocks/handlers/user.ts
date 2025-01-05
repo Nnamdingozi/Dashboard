@@ -115,7 +115,7 @@ export const userHandlers = [
 };
 
 
-    return HttpResponse.json({ user: responseUser, token, accessLog }, { status: 201 });
+    return HttpResponse.json({ user: responseUser, updateUsers: users, token, accessLog }, { status: 201 });
   }),
 
 

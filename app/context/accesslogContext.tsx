@@ -71,6 +71,23 @@ export const AccessLogProvider: React.FC<AccessLogProviderProps> = ({ children }
       setLoading(false);
     }
   }, [token])
+
+
+
+  useEffect(() => {
+    const initializeLogs = async () => {
+      if (token && !loading && (!accessLogs || accessLogs.length === 0)) {
+        try {
+          await getLogs(); // Fetch logs only if they are not already loaded
+        } catch (error) {
+          console.error('Error fetching logs:', error);
+        }
+      }
+    };
+
+    initializeLogs();
+  }, [token, accessLogs, getLogs, loading]); // Depend on token, accessLogs, and loading
+
   
 
   const getLogById = useCallback(async (id: string): Promise<AccessLog | null> => {
@@ -115,10 +132,16 @@ export const AccessLogProvider: React.FC<AccessLogProviderProps> = ({ children }
     try {
       setLoading(true);
       setError(null);
-
-      const newLog = await createAccessLog(token!, log);
-      setAccessLog(newLog);
-      return newLog;
+  
+      // Call createAccessLog and destructure the response
+      const { logResponse, updatedLogs }: { logResponse: AccessLog | null, updatedLogs: AccessLog[] } = await createAccessLog(token!, log);
+  
+      // Update the state with the logResponse and updatedLogs
+      setAccessLog(logResponse);   // Set the single log object to accessLog
+      setAccessLogs(updatedLogs);  // Set the updated logs array to accessLogs
+      localStorage.setItem('accessLogs', JSON.stringify(updatedLogs));
+      localStorage.setItem('accessLog', JSON.stringify(logResponse));
+      return logResponse;  // Return the newly created log
     } catch (err) {
       const message = err instanceof Error ? err.message : 'An error occurred';
       setError(message);
@@ -128,7 +151,6 @@ export const AccessLogProvider: React.FC<AccessLogProviderProps> = ({ children }
       setLoading(false);
     }
   };
-
   const updateLog = async (id: string, log: UpdateAccessLog): Promise<void> => {
     try {
       setLoading(true);

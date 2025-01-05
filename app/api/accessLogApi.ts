@@ -31,13 +31,17 @@ export const getAccessLogById = async (id: string, token: string): Promise<Acces
   }
 };
 
-export const createAccessLog = async (token: string, log: AccessLog): Promise<AccessLog | null> => {
+export const createAccessLog = async (token: string, log: AccessLog): Promise<{ logResponse: AccessLog, updatedLogs: AccessLog[] }> => {
   try {
-
     const response = await axiosInstance.post('/accesslogs', log, configWithToken(token));
-   
-    console.log('Access log succeesfully created:', response.data);
-    return response.data
+
+    console.log('Access log successfully created:', response.data);
+
+    // Assuming `response.data` has properties `logResponse` and `updatedLogs` from the handler
+    return {
+      logResponse: response.data.logResponse, // Log response as returned by handler
+      updatedLogs: response.data.updatedLogs  // Updated logs array as returned by handler
+    };
   } catch (err: unknown) {
     const errorMessage = handleApiError(err);
     throw new Error(errorMessage);

@@ -103,7 +103,7 @@ const AccessLogView: React.FC<AccessLogViewProps> = ({ logById, userById }) => {
       </div>
       <div className="mt-6">
         <Link
-          href="/accesslogView"
+          href={"/accessLogListView"}
           className="inline-block px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition"
         >
           Back to List
@@ -111,6 +111,7 @@ const AccessLogView: React.FC<AccessLogViewProps> = ({ logById, userById }) => {
       </div>
     </div>
   );
+  
 };
 
 export default AccessLogView;
