@@ -5,16 +5,15 @@ import UserList from '@/app/components/User/UserList';
 import { useUserContext } from '@/app/context/userContext';
 
 const ViewUsersPage = () => {
-  const { users, currentUser, removeUser, setUsers, token } = useUserContext();
+  const { users, currentUser, removeUser, setUsers} = useUserContext();
 
-  const [isLocalStorageLoaded, setIsLocalStorageLoaded] = useState(false); // Track if users are loaded from localStorage
 
   // Effect to load users from localStorage
   useEffect(() => {
     const storedUsers = localStorage.getItem('usersList');
     if (storedUsers) {
       setUsers(JSON.parse(storedUsers)); // Load users from localStorage
-      setIsLocalStorageLoaded(true); // Mark as loaded from localStorage
+     
     }
   }, [setUsers]); // Runs only once when the component mounts
 

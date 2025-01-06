@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import UserForm from '@/app/components/User/UserForm';
-import { AccessLog, NewUserRequestBody } from '@/app/utilities/definitions';
+import { NewUserRequestBody } from '@/app/utilities/definitions';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/app/context/userContext';
 import { useAccessLogContext } from '@/app/context/accesslogContext';

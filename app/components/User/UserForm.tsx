@@ -1,5 +1,5 @@
 
-import { NewUserRequestBody, AccessLog } from '@/app/utilities/definitions';
+import { NewUserRequestBody } from '@/app/utilities/definitions';
 import { useState } from 'react';
 import * as Yup from 'yup';
 
