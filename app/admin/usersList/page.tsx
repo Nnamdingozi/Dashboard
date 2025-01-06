@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import UserList from '@/app/components/User/UserList';
 import { useUserContext } from '@/app/context/userContext';
 
