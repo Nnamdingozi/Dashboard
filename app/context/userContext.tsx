@@ -64,22 +64,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [token]); // `fetchUsers` will now only change when `token` changes
 
-  // useEffect(() => {
-  //   // Load users on first mount
-  //   const initializeUsers = async () => {
-  //     const savedToken = localStorage.getItem('token');
-  //     const savedUsers = localStorage.getItem('users');
-  //     setToken(savedToken || null);
-
-  //     if (savedUsers) {
-  //       setUsers(JSON.parse(savedUsers));
-  //     } else {
-  //       await fetchUsers();
-  //     }
-  //   };
-
-  //   initializeUsers();
-  
 
   useEffect(() => {
     const initializeUsers = async () => {
@@ -91,10 +75,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         }
       }
     };
-  
+
     initializeUsers();
   }, [users, fetchUsers]);
-  
+
 
   const saveToken = (newToken: string, user: UserProfile) => {
     setToken(newToken);
@@ -233,7 +217,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     setToken(null);
     setUsers([]);
     localStorage.clear();
-    
+
   };
 
   return (

@@ -18,15 +18,7 @@ const ViewUsersPage = () => {
     }
   }, [setUsers]); // Runs only once when the component mounts
 
-  // Effect to fetch users if not already loaded from localStorage or if `users` is empty
-  // useEffect(() => {
-  //   const initializeUsers = async () => {
-  //     if (!isLocalStorageLoaded && (!users || users.length === 0)) {
-  //       await fetchUsers(); // Fetch users only if they are not loaded from localStorage
-  //     }
-  //   };
-  //   initializeUsers();
-  // }, [isLocalStorageLoaded, users, token, setUsers, fetchUsers]); // Fetch users if necessary
+  
 
   // Handle delete user logic
   const handleDelete = async (id: string | null | undefined) => {

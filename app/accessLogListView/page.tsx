@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useEffect } from 'react';
@@ -14,35 +13,6 @@ const ViewAccessLogsPage = () => {
   console.log('Users in AccessLogPage:', users);
   console.log('Token in AccessLogPage:', token);
 
-  // Fetch logs only when the token is available
-  // useEffect(() => {
-  //   const initializeLogs = async () => {
-  //     if (token && !loading && (!accessLogs || accessLogs.length === 0)) {
-  //       try {
-  //         await getLogs(); // Fetch logs only if they are not already loaded
-  //       } catch (error) {
-  //         console.error('Error fetching logs:', error);
-  //       }
-  //     }
-  //   };
-
-  //   initializeLogs();
-  // }, [token, accessLogs, getLogs, loading]); // Depend on token, accessLogs, and loading
-
-  // Fetch users only when necessary
-  // useEffect(() => {
-  //   const initializeUsers = async () => {
-  //     if (token && !loading && (!users || users.length === 0)) {
-  //       try {
-  //         await fetchUsers(); // Fetch users only if not already loaded
-  //       } catch (error) {
-  //         console.error('Error fetching users:', error);
-  //       }
-  //     }
-  //   };
-
-  //   initializeUsers();
-  // }, [token, fetchUsers, loading, users]); // Depend on token, users, and loading
 
   // Handle deletion of logs
   const handleDelete = async (id: string | null | undefined) => {

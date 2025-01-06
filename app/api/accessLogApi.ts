@@ -37,7 +37,7 @@ export const createAccessLog = async (token: string, log: AccessLog): Promise<{ 
 
     console.log('Access log successfully created:', response.data);
 
-    // Assuming `response.data` has properties `logResponse` and `updatedLogs` from the handler
+
     return {
       logResponse: response.data.logResponse, // Log response as returned by handler
       updatedLogs: response.data.updatedLogs  // Updated logs array as returned by handler

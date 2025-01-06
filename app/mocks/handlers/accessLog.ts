@@ -63,32 +63,6 @@ export const accessLogHandlers = [
       return HttpResponse.json<GetAccessLogResponseBody>(log);
     }),
 
-  // // POST create a new access log
-  // http.post<never, CreateAccessLogRequestBody>(
-  //   `${API_URL}/accesslogs`,
-  //   async ({ cookies, request }: { cookies: Record<string, string>; request: Request }) => {
-  //     const token = cookies.token;
-  //     if (!token) {
-  //       return new HttpResponse(null, { status: 403 });
-  //     }
-
-  //     const newLog = await request.json() as CreateAccessLogRequestBody;
-  //     if (newLog) {
-  //       const logResponse = {
-  //         id: generateNewUserId(),  // Generate new ID
-  //         userId: newLog.userId,
-  //         accesstime: newLog.accesstime,
-  //         access_locate: newLog.access_locate
-  //       };
-
-  //       mockAccessLogs.push(logResponse);  // Add new log to mockAccessLogs
-  //       return HttpResponse.json<GetAccessLogResponseBody>(logResponse, { status: 201 });
-  //     }
-
-  //     // Return an error if there's no valid log data
-  //     return new HttpResponse(null, { status: 400 });
-  //   }
-  // ),
 
 
   http.post<never, CreateAccessLogRequestBody>(

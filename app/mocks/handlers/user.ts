@@ -12,14 +12,19 @@ const users: User[] = [
 ];
 
 
-const lastAssignedUserId = 3; 
-const lastAssignedLogId = 103;
+let lastAssignedUserId = 3;
+let lastAssignedLogId = 103;
 
+// Function to generate a new user ID
+function generateNewUserId(): number {
+  lastAssignedUserId += 1;
+  return lastAssignedUserId;
+}
 
-// Function to get and increment the last assigned ID
-function generateNewId(num: number): number {
- num += 1;
-  return num;
+// Function to generate a new log ID
+function generateNewLogId(): number {
+  lastAssignedLogId += 1;
+  return lastAssignedLogId;
 }
 
 export const userHandlers = [
@@ -69,8 +74,8 @@ export const userHandlers = [
     const newUser = await request.json() as NewUserRequestBody;
 
 
-    const logId = generateNewId(lastAssignedLogId);
-    const userId = generateNewId(lastAssignedUserId);
+    const logId = generateNewLogId();
+    const userId = generateNewUserId();
     const timestamp = new Date(Date.now()).toISOString();
     
    
@@ -138,14 +143,14 @@ export const userHandlers = [
         return new HttpResponse(null, { status: 403 });
       }
 
-      // Sample users array (mock data)
-      const users = [
-        { id: 1, user: { username: 'user1', email: 'user1@example.com', password: 'User1@password1', privacyPolicy: true, role: 'admin' } },
-        { id: 2, user: { username: 'user2', email: 'user2@example.com', password: 'User2@password2', privacyPolicy: true, role: 'user' } },
-        { id: 3, user: { username: 'user3', email: 'user3@example.com', password: 'User3@password3', privacyPolicy: false, role: 'user' } },
-      ];
+      // // Sample users array (mock data)
+      // const users = [
+      //   { id: 1, user: { username: 'user1', email: 'user1@example.com', password: 'User1@password1', privacyPolicy: true, role: 'admin' } },
+      //   { id: 2, user: { username: 'user2', email: 'user2@example.com', password: 'User2@password2', privacyPolicy: true, role: 'user' } },
+      //   { id: 3, user: { username: 'user3', email: 'user3@example.com', password: 'User3@password3', privacyPolicy: false, role: 'user' } },
+      // ];
 
-      // Find the user by id
+      // // Find the user by id
       const userIndex = users.findIndex(user => user.id === Number(id));
 
       if (userIndex === -1) {
@@ -171,7 +176,7 @@ export const userHandlers = [
           user: {
             username: users[userIndex].user.username ?? null,
             email: users[userIndex].user.email ?? null,
-            role: users[userIndex].user.role ?? null,
+            role: users[userIndex].user.role ?? undefined,
           }
 
         };
@@ -211,11 +216,11 @@ export const userHandlers = [
       }
 
       // Sample users array (this would typically come from your database)
-      const users = [
-        { id: 1, user: { username: 'user1', email: 'user1@example.com', password: 'User1@password1', privacyPolicy: true, role: 'admin' } },
-        { id: 2, user: { username: 'user2', email: 'user2@example.com', password: 'User2@password2', privacyPolicy: true, role: 'user' } },
-        { id: 3, user: { username: 'user3', email: 'user3@example.com', password: 'User3@password3', privacyPolicy: false, role: 'user' } },
-      ];
+      // const users = [
+      //   { id: 1, user: { username: 'user1', email: 'user1@example.com', password: 'User1@password1', privacyPolicy: true, role: 'admin' } },
+      //   { id: 2, user: { username: 'user2', email: 'user2@example.com', password: 'User2@password2', privacyPolicy: true, role: 'user' } },
+      //   { id: 3, user: { username: 'user3', email: 'user3@example.com', password: 'User3@password3', privacyPolicy: false, role: 'user' } },
+      // ];
 
       // Find the index of the user with the given id
       const userIndex = users.findIndex(user => user.id === Number(id));
@@ -239,3 +244,150 @@ export const userHandlers = [
 
 
 ];
+
+
+// import { http, HttpResponse } from 'msw';
+// import {
+//   User,
+//   NewUserRequestBody,
+//   UpdatedUserRequestBody,
+//   DeleteUserResponseBody,
+//   UserParams,
+// } from '@/app/utilities/definitions';
+
+// const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+// // Global users array shared across all handlers
+// const users: User[] = [
+//   { id: 1, user: { username: 'user1', email: 'user1@example.com', password: 'User1@password1', privacyPolicy: true, role: 'admin' } },
+//   { id: 2, user: { username: 'user2', email: 'user2@example.com', password: 'User2@password2', privacyPolicy: true, role: 'user' } },
+//   { id: 3, user: { username: 'user3', email: 'user3@example.com', password: 'User3@password3', privacyPolicy: false, role: 'user' } },
+// ];
+
+// let lastAssignedUserId = 3;
+// let lastAssignedLogId = 103;
+
+// // Function to generate a new user ID
+// function generateNewUserId(): number {
+//   lastAssignedUserId += 1;
+//   return lastAssignedUserId;
+// }
+
+// // Function to generate a new log ID
+// function generateNewLogId(): number {
+//   lastAssignedLogId += 1;
+//   return lastAssignedLogId;
+// }
+
+// export const userHandlers = [
+//   // Mocking GET /users
+//   http.get<never, User[]>(`${API_URL}/users`, async ({ cookies }) => {
+//     const token = cookies.token; // Extract token from cookies
+//     if (!token) {
+//       return new HttpResponse(null, { status: 403 });
+//     }
+//     return HttpResponse.json(users); // Return the global users array
+//   }),
+
+//   // Mocking GET /users/:id
+//   http.get<{ id: string }>(`${API_URL}/users/:id`, async ({ params, cookies }) => {
+//     const { id } = params;
+//     const token = cookies.token;
+
+//     if (!token) {
+//       return new HttpResponse(null, { status: 403 });
+//     }
+
+//     const user = users.find((user) => user.id === Number(id));
+
+//     if (!user) {
+//       return new HttpResponse(null, { status: 404 });
+//     }
+
+//     return HttpResponse.json(user);
+//   }),
+
+//   // Mocking POST /users
+//   http.post<never, NewUserRequestBody>(`${API_URL}/users`, async ({ request }: { request: Request }) => {
+//     // Parse the JSON request body
+//     const newUser = (await request.json()) as NewUserRequestBody;
+  
+
+//     const userId = generateNewUserId();
+//     const logId = generateNewLogId();
+
+//     const createdUser: User = {
+//       id: userId,
+//       user: {
+//         username: newUser.username,
+//         email: newUser.email,
+//         password: newUser.password,
+//         privacyPolicy: newUser.privacyPolicy,
+//         role: newUser.role,
+//       },
+//     };
+
+//     users.push(createdUser);
+
+//     const token = `mocked-token-${createdUser.id}`;
+
+//     const accessLog = {
+//       id: logId,
+//       userId: createdUser.id,
+//       accesstime: new Date().toISOString(),
+//       access_locate: `${createdUser.user.username}-${createdUser.id}-ipAddress`,
+//     };
+
+//     return HttpResponse.json({ user: createdUser, users, token, accessLog }, { status: 201 });
+//   }),
+
+//   // Mocking PUT /users/:id
+//   http.put<{ id: string }, { user: Partial<UpdatedUserRequestBody> }>(
+//     `${API_URL}/users/:id`,
+//     async ({ params, cookies, request }) => {
+//       const { id } = params;
+//       const token = cookies.token;
+
+//       if (!token) {
+//         return new HttpResponse(null, { status: 403 });
+//       }
+
+//       const userIndex = users.findIndex((user) => user.id === Number(id));
+
+//       if (userIndex === -1) {
+//         return new HttpResponse(null, { status: 404 });
+//       }
+
+//       const updatedData = await request.json() as Partial<User['user']>;
+//       users[userIndex].user = { ...users[userIndex].user, ...updatedData };
+
+//       const updatedUser = users[userIndex];
+//       const newToken = `mocked-token-${updatedUser.id}`;
+
+//       return HttpResponse.json({ user: updatedUser, token: newToken, users }, { status: 200 });
+//     }
+//   ),
+
+//   // Mocking DELETE /users/:id
+//   http.delete<UserParams, DeleteUserResponseBody>(
+//     `${API_URL}/users/:id`,
+//     async ({ params, cookies }) => {
+//       const { id } = params;
+//       const token = cookies.token;
+
+//       if (!token) {
+//         return new HttpResponse(null, { status: 403 });
+//       }
+
+//       const userIndex = users.findIndex((user) => user.id === Number(id));
+
+//       if (userIndex === -1) {
+//         return new HttpResponse(null, { status: 404 });
+//       }
+
+//       users.splice(userIndex, 1);
+
+//       return HttpResponse.json({ message: `User with ID ${id} has been deleted.`, users }, { status: 200 });
+//     }
+//   ),
+// ];
