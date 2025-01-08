@@ -35,6 +35,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [userById, setUserById] = useState<User | null>(null);
+  const [logoutCount, setlogoutCount] = useState(0)
 
 
 
@@ -212,6 +213,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
+    setlogoutCount()
     router.push('/');
     setCurrentUser(null);
     setToken(null);

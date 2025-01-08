@@ -55,8 +55,8 @@ const UserRegistration = () => {
   };
 
   return (
-    <div className="flex h-auto items-center flex-col">
-      <div className="w-full md:w-1/2 h-full bg-gray-100 flex items-center justify-center p-6">
+    <div className="flex h-screen items-center flex-col ">
+      <div className="w-full md:w-1/2 h-full flex items-center justify-center p-6">
         <div className="w-full max-w-md">
           {errorMessage && (
             <div className="text-red-600 bg-red-100 p-3 rounded mb-4">
@@ -75,7 +75,7 @@ const UserRegistration = () => {
         </div>
       </div>
 
-      <div className="w-full md:w-[40%] h-16 bg-gradient-to-r from-blue-100 to-blue-500 flex align-middle justify-between py-2 rounded-lg border-2">
+      {/* <div className="w-full md:w-[40%] h-16 bg-gradient-to-r from-blue-100 to-blue-500 flex align-middle justify-between py-2 rounded-lg border-2">
         <p className="text-lg font-semibold text-blue-600">Already have an account?</p>
 
         <button
@@ -84,7 +84,7 @@ const UserRegistration = () => {
         >
           Log In
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

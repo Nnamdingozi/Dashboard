@@ -71,7 +71,8 @@ const UserForm: React.FC<UserFormProps> = ({ onSubmit }) => {
 
   return (
     <form
-      className="h-auto p-8 border border-gray-200 w-full max-w-md mx-auto rounded-lg shadow-md"
+      className="h-auto p-8 border border-gray-200 w-full max-w-md mx-auto rounded-lg shadow-2xl"
+      data-aos="zoom-in"
       onSubmit={handleSubmit}
     >
       <h2 className="font-semibold text-center text-blue-600 mb-4">Register a new account</h2>
@@ -162,7 +163,7 @@ const UserForm: React.FC<UserFormProps> = ({ onSubmit }) => {
       </div>
 
       <button
-        className="bg-blue-100 text-blue-800 font-semibold h-12 w-full rounded mt-6 hover:bg-blue-800 hover:text-blue-100"
+        className="bg-blue-600 text-blue-100 font-semibold h-12 w-full rounded mt-6 hover:bg-blue-100 hover:text-blue-600"
         type="submit"
         disabled={loading}
       >
