@@ -11,8 +11,8 @@ const AdminDashboardPage = () => {
 
   const [userCount, setUserCount] = useState(0);
   const [logCount, setLogCount] = useState(0);
-  const { logout, currentUser, loading, users } = useUserContext();
-  const {accessLogs, accessLog} = useAccessLogContext();
+  const { logout, currentUser, loading, users, logoutCount} = useUserContext();
+  const {accessLogs} = useAccessLogContext();
   const router = useRouter();
 
 
@@ -80,7 +80,7 @@ useEffect(()=> {
   <ul className='flex h-full mt-6'>
     <li className='h-16 border-2 shadow-2xl ml-2 w-1/3 rounded-sm pl-2 pt-2'> Total number of users: <span className='font-bold font-serif text-lg ml-2'>{userCount}</span></li>
     <li className='h-16 border-2 shadow-2xl ml-2 w-1/3 pl-2 pt-2'>Total Access logs: <span className='font-bold font-serif text-lg ml-2'>{logCount}</span></li>
-    <li className='h-16 border-2 shadow-2xl ml-2 w-1/3 pl-2 pt-2'>Total LogOuts: </li>
+    <li className='h-16 border-2 shadow-2xl ml-2 w-1/3 pl-2 pt-2'>Total LogOuts: <span className='font-bold font-serif text-lg ml-2'>{logoutCount}</span></li>
   </ul>
 
 </div> image

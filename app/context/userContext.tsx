@@ -24,6 +24,7 @@ interface UserContextProps {
   saveToken: (token: string, user: UserProfile) => void;
   editUserById: (id: string, user: UpdatedUserRequestBody) => Promise<updateUserResponseBody | null>;
   removeUser: (id: string) => Promise<void>;
+  logoutCount: number
 }
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
@@ -213,7 +214,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
-    setlogoutCount()
+    setlogoutCount((prevCount) => prevCount + 1); 
     router.push('/');
     setCurrentUser(null);
     setToken(null);
@@ -241,6 +242,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         removeUser,
         userById,
         setUserById,
+        logoutCount
       }}
     >
       {children}
