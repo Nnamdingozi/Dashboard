@@ -50,9 +50,7 @@ const UserRegistration = () => {
     }
   };
 
-  const handleClik = () => {
-    router.push('/user/login');
-  };
+ 
 
   return (
     <div className="flex h-screen items-center flex-col ">
@@ -75,16 +73,7 @@ const UserRegistration = () => {
         </div>
       </div>
 
-      {/* <div className="w-full md:w-[40%] h-16 bg-gradient-to-r from-blue-100 to-blue-500 flex align-middle justify-between py-2 rounded-lg border-2">
-        <p className="text-lg font-semibold text-blue-600">Already have an account?</p>
-
-        <button
-          className="bg-blue-800 text-blue-200 h-10 w-20 rounded-lg shadow-md transition-colors duration-200 hover:bg-blue-200 hover:text-blue-800 mr-3"
-          onClick={handleClik}
-        >
-          Log In
-        </button>
-      </div> */}
+      
     </div>
   );
 };
