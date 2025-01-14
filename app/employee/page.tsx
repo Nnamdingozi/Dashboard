@@ -137,9 +137,9 @@ const EmployeeDashboard = () => {
       <div className="w-full max-w-6xl flex flex-col md:flex-row justify-between mb-6 gap-4">
         <div>
           {currentUser?.username && (
-              // eslint-disable-next-line react/no-unescaped-entities
+         
             <h2 className="text-2xl md:text-4xl font-extrabold text-blue-600">
-              {currentUser.username}'s Dashboard
+             {`${currentUser.username}'s Dashboard`}
             </h2>
           )}
         </div>
