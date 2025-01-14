@@ -253,6 +253,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import AOS from 'aos'; // Import AOS
 import 'aos/dist/aos.css'; // Import AOS styles
+import LoadingSpinner from './components/loadingSpinner'
 
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
@@ -297,7 +298,8 @@ export default function Home() {
   if (!isClient) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <p className="text-gray-700 text-lg font-semibold">Loading...</p>
+       
+        <LoadingSpinner/>
       </div>
     );
   }
