@@ -73,31 +73,34 @@ const ViewAccessLogsPage = () => {
   // Show loading state if users or logs are not yet loaded
   if (!users || users.length === 0) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <p className="text-lg text-gray-600 animate-pulse">Loading users...</p>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
         <LoadingSpinner />
+        <p className="mt-4 text-lg md:text-xl text-gray-600 animate-pulse text-center">
+          Loading users...
+        </p>
       </div>
     );
   }
 
   if (!accessLogs || accessLogs.length === 0) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <p className="text-lg text-gray-600 animate-pulse">Loading access logs...</p>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
         <LoadingSpinner />
-
+        <p className="mt-4 text-lg md:text-xl text-gray-600 animate-pulse text-center">
+          Loading access logs...
+        </p>
       </div>
     );
   }
 
   // Render the AccessLogList once data is loaded
   return (
-    <div className="p-4 md:p-8 bg-gray-50 min-h-screen">
-      <h1 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-6 text-center">
+    <div className="p-4 sm:p-6 md:p-8 lg:p-12 bg-gray-50 min-h-screen">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 mb-6 text-center">
         Access Logs
       </h1>
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto w-full">
         <AccessLogList
           accessLogs={accessLogs}
           users={users} // Pass users list as prop
