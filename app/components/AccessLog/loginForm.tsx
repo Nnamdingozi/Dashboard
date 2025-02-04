@@ -19,11 +19,13 @@ const UserLogin: React.FC<UserLoginProps> = ({ onSubmit }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100"
-    data-aos="zoom-in"
+    <div 
+      className="min-h-screen flex flex-col items-center justify-center bg-gray-100"
+      data-aos="zoom-in"
     >
-      <h1 className='text-blue-600 mb-6'>Enter Login Details</h1>
-      <form
+      <h1 className="text-blue-600 mb-6">Enter Login Details</h1>
+      
+      <form 
         className="w-[90%] sm:w-[60%] lg:w-[40%] bg-white p-8 rounded-lg shadow-2xl"
         onSubmit={handleSubmit}
       >
@@ -36,6 +38,7 @@ const UserLogin: React.FC<UserLoginProps> = ({ onSubmit }) => {
           onChange={handleInputChange}
           required
         />
+        
         <input
           className="h-10 w-full mb-3 rounded border border-blue-600 p-2"
           type="password"
@@ -45,6 +48,7 @@ const UserLogin: React.FC<UserLoginProps> = ({ onSubmit }) => {
           onChange={handleInputChange}
           required
         />
+        
         <button
           className="bg-blue-600 text-blue-100 font-semibold h-12 w-full rounded mb-5 hover:bg-blue-100 hover:text-blue-600"
           type="submit"

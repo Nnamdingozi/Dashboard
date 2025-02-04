@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
@@ -142,7 +140,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
       const userRole = user.user.role;
       if (userRole) {
-        return { userRole, accessLog }
+        return { userRole, accessLog };
       }
 
     } catch (err) {
@@ -151,6 +149,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     } finally {
       setLoading(false);
     }
+
     return { userRole: null, accessLog: null };
   };
 

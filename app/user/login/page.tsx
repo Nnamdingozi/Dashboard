@@ -1,4 +1,3 @@
-
 'use client';
 
 import UserLogin from '@/app/components/AccessLog/loginForm';
@@ -17,52 +16,55 @@ const UserLoginForm: React.FC = () => {
   const router = useRouter();
   const { createLog } = useAccessLogContext();
 
-  const handleLogin = useCallback(async (loginData: LoginRequest): Promise<void> => {
-    setLoading(true);
-    setError(null);
+  const handleLogin = useCallback(
+    async (loginData: LoginRequest): Promise<void> => {
+      setLoading(true);
+      setError(null);
 
-    try {
-      const { mockUser, token, accessLog } = await login(loginData);
+      try {
+        const { mockUser, token, accessLog } = await login(loginData);
 
-      // Save token and user data
-      localStorage.setItem('token', token);
-      localStorage.setItem('accessLog', JSON.stringify(accessLog));
+        // Save token and user data
+        localStorage.setItem('token', token);
+        localStorage.setItem('accessLog', JSON.stringify(accessLog));
 
-      saveToken(token, {
-        id: mockUser.id,
-        username: mockUser.user?.username || 'Unknown User',
-        email: mockUser.user?.email || 'Unknown Email',
-        role: mockUser.user?.role ?? null,
-      });
-
-      // Create access log
-      if (accessLog) {
-        await createLog(accessLog);
-      } else {
-        console.warn('Access log data is missing.');
-      }
-
-      // Redirect based on user role
-      const userRole = mockUser.user?.role;
-      if (userRole) {
-        router.push(userRole === 'user' ? '/employee' : '/admin');
-      } else {
-        throw new Error('User role is undefined.');
-      }
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        console.error('Login error:', {
-          message: err.message,
-          response: err.response?.data,
+        saveToken(token, {
+          id: mockUser.id,
+          username: mockUser.user?.username || 'Unknown User',
+          email: mockUser.user?.email || 'Unknown Email',
+          role: mockUser.user?.role ?? null,
         });
-      } else {
-        console.error('Unexpected error:', err);
+
+        // Create access log
+        if (accessLog) {
+          await createLog(accessLog);
+        } else {
+          console.warn('Access log data is missing.');
+        }
+
+        // Redirect based on user role
+        const userRole = mockUser.user?.role;
+        if (userRole) {
+          router.push(userRole === 'user' ? '/employee' : '/admin');
+        } else {
+          throw new Error('User role is undefined.');
+        }
+      } catch (err) {
+        if (err instanceof AxiosError) {
+          console.error('Login error:', {
+            message: err.message,
+            response: err.response?.data,
+          });
+        } else {
+          console.error('Unexpected error:', err);
+        }
+        setError(err instanceof Error ? err.message : 'An unexpected error occurred.');
+      } finally {
+        setLoading(false);
       }
-      setError(err instanceof Error ? err.message : 'An unexpected error occurred.');
-    } finally {
-      setLoading(false);
-    }
-  }, [router, saveToken, createLog]);
+    },
+    [router, saveToken, createLog]
+  );
 
   return (
     <div className="LoginContainer">

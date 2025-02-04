@@ -1,17 +1,14 @@
-
-'use client'
+'use client';
 
 import Link from 'next/link';
-import { AccessLog, User } from '@/app/utilities/definitions'
+import { AccessLog, User } from '@/app/utilities/definitions';
 
 interface AccessLogViewProps {
   logById: AccessLog | null;
-  userById: User | null
+  userById: User | null;
 }
 
 const AccessLogView: React.FC<AccessLogViewProps> = ({ logById, userById }) => {
-  
-
   if (!logById) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100 text-gray-700">
@@ -21,6 +18,7 @@ const AccessLogView: React.FC<AccessLogViewProps> = ({ logById, userById }) => {
   }
 
   const username = userById?.id === logById.userId ? userById.user.username : 'Unknown User';
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Access Log Details</h2>
@@ -40,7 +38,7 @@ const AccessLogView: React.FC<AccessLogViewProps> = ({ logById, userById }) => {
       </div>
       <div className="mt-6">
         <Link
-          href={"/accessLogListView"}
+          href="/accessLogListView"
           className="inline-block px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition"
         >
           Back to List
@@ -48,7 +46,6 @@ const AccessLogView: React.FC<AccessLogViewProps> = ({ logById, userById }) => {
       </div>
     </div>
   );
-  
 };
 
 export default AccessLogView;

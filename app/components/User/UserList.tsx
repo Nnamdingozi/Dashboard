@@ -58,24 +58,24 @@ const UserList: React.FC<UserListProps> = ({ users, onDelete }) => {
   }
 
   return (
-    
-      <div className="w-[70%] mx-auto  p-4 mt-4 min-h-screen">
+
+    <div className="w-[70%] mx-auto  p-4 mt-4 min-h-screen">
 
 
-    <div className="w-full flex justify-end space-x-4 mb-4">
-  <Link
-    href="/admin"
-    className="flex items-center justify-center w-28 h-10 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600"
-  >
-    Back
-  </Link>
-  <Link
-    href="/admin/addedUser"
-    className="flex items-center justify-center w-40 h-10 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600"
-  >
-    Add New User
-  </Link>
-</div>
+      <div className="w-full flex justify-end space-x-4 mb-4">
+        <Link
+          href="/admin"
+          className="flex items-center justify-center w-28 h-10 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600"
+        >
+          Back
+        </Link>
+        <Link
+          href="/admin/addedUser"
+          className="flex items-center justify-center w-40 h-10 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600"
+        >
+          Add New User
+        </Link>
+      </div>
 
 
       <h2 className="text-3xl font-semibold mb-6 text-center">Users</h2>
@@ -99,7 +99,7 @@ const UserList: React.FC<UserListProps> = ({ users, onDelete }) => {
       )}
 
       <div className="text-center mb-4">
-       
+
 
       </div>
 
