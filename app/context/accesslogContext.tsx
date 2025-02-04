@@ -134,7 +134,10 @@ export const AccessLogProvider: React.FC<AccessLogProviderProps> = ({ children }
       setError(null);
 
       const response = await deleteAccessLog(id, token!);
-      setAccessLogs((prevLogs) => prevLogs.filter((log) => log.id !== Number(id)));
+      if(response) {
+        setAccessLogs((prevLogs) => prevLogs.filter((log) => log.id !== Number(id)));
+      }
+      
     } catch (err) {
       const message = err instanceof Error ? err.message : 'An error occurred';
       setError(message);

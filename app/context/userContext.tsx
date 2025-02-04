@@ -15,7 +15,6 @@ import {
   UserProfile,
   UpdatedUserRequestBody,
   updateUserResponseBody,
-  AccessLog,
   RegisterUserResponse,
 } from '@/app/utilities/definitions';
 
