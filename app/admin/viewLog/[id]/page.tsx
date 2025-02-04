@@ -6,11 +6,15 @@ import AccessLogView from '@/app/components/AccessLog/AccessLogView';
 import { useAccessLogContext } from '@/app/context/accesslogContext';
 import { useUserContext } from '@/app/context/userContext';
 
-export default function AccessLogViewPage({
-  params: paramsPromise,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+interface Params {
+  id: string;
+}
+
+interface AccessLogViewPageProps {
+  params: Promise<Params>;
+}
+
+export default function AccessLogViewPage({ params: paramsPromise }: AccessLogViewPageProps) {
   const { fetchUserById, userById } = useUserContext();
   const { getLogById, loading, error, accessLog } = useAccessLogContext();
 
@@ -24,15 +28,14 @@ export default function AccessLogViewPage({
   // Fetch the access log when `id` changes
   useEffect(() => {
     if (id) {
-      getLogById(id); // Fetch the access log by id
+      getLogById(id);
     }
   }, [id, getLogById]);
 
   // Fetch the user data when `accessLog.userId` changes
   useEffect(() => {
     if (accessLog?.userId) {
-      const userIdFromLog = accessLog.userId.toString();
-      fetchUserById(userIdFromLog); // Fetch user details by userId from access log
+      fetchUserById(accessLog.userId.toString());
     }
   }, [accessLog?.userId, fetchUserById]);
 

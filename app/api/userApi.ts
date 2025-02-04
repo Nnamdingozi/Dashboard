@@ -2,35 +2,41 @@
 
 import { ApiError } from '@/app/validation/errorEnum';
 
-import { User, NewUserRequestBody, UpdatedUserRequestBody, DeleteUserResponseBody, AccessLog } from '@/app/utilities/definitions';
-import { axiosInstance, validatePayload, handleApiError, configWithToken, validateUpdate } from '@/app/validation/validation'
+import { 
+  User, 
+  NewUserRequestBody, 
+  UpdatedUserRequestBody, 
+  DeleteUserResponseBody, 
+  AccessLog 
+} from '@/app/utilities/definitions';
 
+import { 
+  axiosInstance, 
+  validatePayload, 
+  handleApiError, 
+  configWithToken, 
+  validateUpdate 
+} from '@/app/validation/validation';
 
 // Get users with automatic token and error handling
 export const getUsers = async (token: string | null): Promise<User[] | []> => {
   try {
-    console.log('token in get userApi', token)
-    const response = await axiosInstance.get(`/users`, configWithToken(token));
-
+    console.log('token in get userApi', token);
+    const response = await axiosInstance.get('/users', configWithToken(token));
     console.log('Users list fetched in api:', response.data);
-    console.log('Users List without .data in response', response)
-
-    console.log('users in api', response.data)
-    return response.data;  // Return the flattened data
-
-
+    console.log('Users List without .data in response', response);
+    console.log('users in api', response.data);
+    return response.data; // Return the flattened data
   } catch (err: unknown) {
     const errorMessage = handleApiError(err);
     throw new Error(errorMessage); // Throw the error to be handled in the calling function
   }
 };
 
-
 // Example function to get user by ID
 export const getUserById = async (id: string, token: string): Promise<User | null> => {
   try {
     const response = await axiosInstance.get(`/users/${id}`, configWithToken(token));
-
     console.log('User fetched by Id in api:', response.data);
     return response.data;
   } catch (err: unknown) {
@@ -40,7 +46,9 @@ export const getUserById = async (id: string, token: string): Promise<User | nul
 };
 
 // Example function to create a new user
-export const createUser = async (user: NewUserRequestBody): Promise<{ user: User, updatedUsers: User[], token: string, accessLog: AccessLog }> => {
+export const createUser = async (
+  user: NewUserRequestBody
+): Promise<{ user: User; updatedUsers: User[]; token: string; accessLog: AccessLog }> => {
   try {
     // Validate the input
     const isValidInput = validatePayload(user);
@@ -49,25 +57,25 @@ export const createUser = async (user: NewUserRequestBody): Promise<{ user: User
     }
 
     const response = await axiosInstance.post('/users', user);
+    console.log('Received token, accessLog and user from mockApi', response.data);
 
-    console.log('Received toke, accesslog and user from mockApi', response.data);
-    
-    return { user: response.data.user, updatedUsers: response.data.updateUsers, token: response.data.token, accessLog: response.data.accessLog };
-
+    return {
+      user: response.data.user,
+      updatedUsers: response.data.updateUsers,
+      token: response.data.token,
+      accessLog: response.data.accessLog,
+    };
   } catch (err: unknown) {
     const errorMessage = handleApiError(err);
     throw new Error(errorMessage);
   }
 };
 
-
-
-
 export const updateUser = async (
   id: string,
   token: string,
   user: UpdatedUserRequestBody
-): Promise<{ userProfile: User | null;  token: string | null, users: User[] | null }> => {
+): Promise<{ userProfile: User | null; token: string | null; users: User[] | null }> => {
   try {
     // Validate the input
     const isValidInput = validateUpdate(user);
@@ -77,7 +85,6 @@ export const updateUser = async (
 
     // Make the PUT request with the token in the headers
     const response = await axiosInstance.put(`/users/${id}`, user, configWithToken(token));
-
     console.log('User updated successfully:', response.data);
 
     // Assuming the response contains the updated user, users array, and new token
@@ -85,12 +92,10 @@ export const updateUser = async (
     const updatedUsersArray = response.data.users;
     const newToken = response.data.token;
 
-
     return {
       userProfile: updatedUserData ?? null,
       token: newToken ?? null,
       users: updatedUsersArray ?? [],
-    
     };
   } catch (err: unknown) {
     const errorMessage = handleApiError(err);
@@ -98,11 +103,13 @@ export const updateUser = async (
   }
 };
 
-
-export const deleteUser = async (id: string, token: string,): Promise<DeleteUserResponseBody | undefined> => {
+export const deleteUser = async (
+  id: string,
+  token: string
+): Promise<DeleteUserResponseBody | undefined> => {
   try {
     const response = await axiosInstance.delete(`/users/${id}`, configWithToken(token));
-    console.log('response.data:', response)
+    console.log('response.data:', response);
     return response.data;
   } catch (err: unknown) {
     const errorMessage = handleApiError(err);

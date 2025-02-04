@@ -1,15 +1,18 @@
-
 'use client';
 
 import React, { useEffect, useState } from 'react';
 import { useUserContext } from '@/app/context/userContext';
 import UserView from '@/app/components/User/UserView';
 
-export default function ViewUserPage({
-  params: paramsPromise,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+interface Params {
+  id: string;
+}
+
+interface ViewUserPageProps {
+  params: Promise<Params>;
+}
+
+export default function ViewUserPage({ params: paramsPromise }: ViewUserPageProps) {
   const { fetchUserById, userById, loading, error } = useUserContext();
   const [id, setId] = useState<string | null>(null);
 
@@ -18,7 +21,7 @@ export default function ViewUserPage({
     paramsPromise.then(({ id }) => setId(id));
   }, [paramsPromise]);
 
-  // Fetch data whenever `id` changes
+  // Fetch user data whenever `id` changes
   useEffect(() => {
     if (id) {
       fetchUserById(id);
@@ -44,4 +47,3 @@ export default function ViewUserPage({
 
   return <UserView user={userById} />;
 }
-

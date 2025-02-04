@@ -1,11 +1,15 @@
-
-import { axiosInstance, validateLogin, handleApiError } from '@/app/validation/validation';
+import { 
+  axiosInstance, 
+  validateLogin, 
+  handleApiError 
+} from '@/app/validation/validation';
 import { LoginRequest } from '@/app/utilities/definitions';
 import { ApiError } from '@/app/validation/errorEnum';
 import { User, AccessLog } from '@/app/utilities/definitions';
 
-
-export const login = async (loginData: LoginRequest): Promise<{ mockUser: User; token: string, accessLog: AccessLog }> => {
+export const login = async (
+  loginData: LoginRequest
+): Promise<{ mockUser: User; token: string; accessLog: AccessLog }> => {
   try {
     console.log('Attempting login with payload:', loginData);
 
@@ -20,13 +24,15 @@ export const login = async (loginData: LoginRequest): Promise<{ mockUser: User; 
     console.log('Login response:', response.data);
 
     // Return the user, token, and access log from the API response
-    return { mockUser: response.data.mockUser, token: response.data.token, accessLog: response.data.accessLog};
-
+    return { 
+      mockUser: response.data.mockUser, 
+      token: response.data.token, 
+      accessLog: response.data.accessLog 
+    };
   } catch (err) {
     const errorMessage = handleApiError(err);
     console.error('Login failed with error:', errorMessage);
     throw new Error(errorMessage);
   }
 };
-
 

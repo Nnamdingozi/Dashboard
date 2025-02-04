@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { UserProfile, User } from '@/app/utilities/definitions'; 
+import { UserProfile, User } from '@/app/utilities/definitions';
 import { useAccessLogContext } from '@/app/context/accesslogContext';
 
 interface UserListProps {
@@ -14,7 +14,7 @@ interface UserListProps {
 
 const UserList: React.FC<UserListProps> = ({ users, onDelete }) => {
   const { accessLogs } = useAccessLogContext();
-  
+
   // State for search input and filtered users
   const [filterText, setFilterText] = useState('');
   const [filteredUsers, setFilteredUsers] = useState<User[]>(users);
@@ -58,7 +58,26 @@ const UserList: React.FC<UserListProps> = ({ users, onDelete }) => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 w-full">
+    
+      <div className="w-[70%] mx-auto  p-4 mt-4 min-h-screen">
+
+
+    <div className="w-full flex justify-end space-x-4 mb-4">
+  <Link
+    href="/admin"
+    className="flex items-center justify-center w-28 h-10 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600"
+  >
+    Back
+  </Link>
+  <Link
+    href="/admin/addedUser"
+    className="flex items-center justify-center w-40 h-10 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600"
+  >
+    Add New User
+  </Link>
+</div>
+
+
       <h2 className="text-3xl font-semibold mb-6 text-center">Users</h2>
 
       {/* Filter Input */}
@@ -68,7 +87,7 @@ const UserList: React.FC<UserListProps> = ({ users, onDelete }) => {
           value={filterText}
           onChange={(e) => setFilterText(e.target.value)}
           placeholder="Filter by username, email, or log info"
-          className="px-4 py-2 border rounded-md w-full max-w-xs mx-auto"
+          className="px-4 py-2 border-2 border-gray-300 rounded-md w-full max-w-xs mx-auto"
         />
       </div>
 
@@ -80,14 +99,13 @@ const UserList: React.FC<UserListProps> = ({ users, onDelete }) => {
       )}
 
       <div className="text-center mb-4">
-        <Link href="/admin/addedUser" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-          Add New User
-        </Link>
+       
+
       </div>
 
       <ul className="space-y-4 w-full">
         {filteredUsers.map(user => {
-          const userLog = accessLogs.find(log => log.userId === user.id); 
+          const userLog = accessLogs.find(log => log.userId === user.id);
 
           return (
             <li key={user.id} className="flex items-center justify-between p-4 border rounded-lg shadow-sm hover:bg-gray-100 w-full">

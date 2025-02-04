@@ -2,10 +2,24 @@
 
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
-import { getUsers, getUserById, createUser, updateUser, deleteUser } from '@/app/api/userApi';
-import { User, NewUserRequestBody, UserProfile, UpdatedUserRequestBody, updateUserResponseBody, AccessLog, RegisterUserResponse } from '@/app/utilities/definitions';
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+} from '@/app/api/userApi';
+import {
+  User,
+  NewUserRequestBody,
+  UserProfile,
+  UpdatedUserRequestBody,
+  updateUserResponseBody,
+  AccessLog,
+  RegisterUserResponse,
+} from '@/app/utilities/definitions';
 
 interface UserContextProps {
   users: User[];
@@ -24,7 +38,7 @@ interface UserContextProps {
   saveToken: (token: string, user: UserProfile) => void;
   editUserById: (id: string, user: UpdatedUserRequestBody) => Promise<updateUserResponseBody | null>;
   removeUser: (id: string) => Promise<void>;
-  logoutCount: number
+  logoutCount: number;
 }
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
@@ -36,20 +50,30 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [userById, setUserById] = useState<User | null>(null);
-  const [logoutCount, setlogoutCount] = useState(0)
-
-
+  const [logoutCount, setLogoutCount] = useState(0);
 
   const router = useRouter();
 
+  // Sync users to localStorage whenever it changes
+  useEffect(() => {
+    if (users.length > 0) {
+      localStorage.setItem('users', JSON.stringify(users));
+    }
+  }, [users]);
 
+  // Load users from localStorage on component mount
+  useEffect(() => {
+    const storedUsers = localStorage.getItem('users');
+    if (storedUsers) {
+      setUsers(JSON.parse(storedUsers));
+    }
+  }, []);
 
   const setErrorFromException = (err: unknown) => {
     const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred.';
     setError(errorMessage);
     console.error(errorMessage, err);
   };
-
 
   const fetchUsers = useCallback(async () => {
     setLoading(true);
@@ -58,93 +82,61 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     try {
       const fetchedUsers = await getUsers(token!);
       setUsers(fetchedUsers);
-      localStorage.setItem('users', JSON.stringify(fetchedUsers));
     } catch (err) {
       setErrorFromException(err);
     } finally {
       setLoading(false);
     }
-  }, [token]); // `fetchUsers` will now only change when `token` changes
-
+  }, [token]);
 
   useEffect(() => {
-    const initializeUsers = async () => {
-      if (!users || users.length === 0) {
-        try {
-          await fetchUsers();
-        } catch (error) {
-          console.error('Error fetching users:', error);
-        }
-      }
-    };
-
-    initializeUsers();
+    if (!users || users.length === 0) {
+      fetchUsers();
+    }
   }, [users, fetchUsers]);
-
 
   const saveToken = (newToken: string, user: UserProfile) => {
     setToken(newToken);
     setCurrentUser(user);
-
     localStorage.setItem('token', newToken);
     localStorage.setItem('currentUser', JSON.stringify(user));
     document.cookie = `token=${newToken}; path=/; samesite=strict; max-age=3600`;
   };
 
-
-
-
-  const fetchUserById = useCallback(
-    async (id: string): Promise<User | null> => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const fetchedUser = await getUserById(id, token!);
-        setUserById(fetchedUser);
-        localStorage.setItem(`user_${id}`, JSON.stringify(fetchedUser));
-        return fetchedUser;
-      } catch (err) {
-        setError((err as Error).message || 'An error occurred');
-        return null;
-      } finally {
-        setLoading(false);
-      }
-    },
-    [token] // Dependency ensures `useCallback` is updated only if `token` changes
-  );
-
-
-  const registerUser = async (newUser: NewUserRequestBody): Promise<{ userRole: string | null, accessLog: AccessLog | null }> => {
+  const fetchUserById = useCallback(async (id: string): Promise<User | null> => {
     setLoading(true);
-    setError(null)
+    setError(null);
 
     try {
-      // const { user, token, accessLog} = await createUser(newUser);
-      await fetchUsers();
+      const fetchedUser = await getUserById(id, token!);
+      setUserById(fetchedUser);
+      localStorage.setItem(`user_${id}`, JSON.stringify(fetchedUser));
+      return fetchedUser;
+    } catch (err) {
+      setErrorFromException(err);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }, [token]);
+
+  const registerUser = async (newUser: NewUserRequestBody): Promise<RegisterUserResponse> => {
+    setLoading(true);
+    setError(null);
+
+    try {
       const responseData = await createUser(newUser);
-
-      // Validate response data
-      if (!responseData.token || !responseData.user || !responseData.updatedUsers || !responseData.accessLog) {
-        throw new Error('Missing required fields in login response.');
-      }
-
       const { user, updatedUsers, token, accessLog } = responseData;
 
       setUsers(updatedUsers);
-      console.log('users in register context;', users)
-
-      localStorage.setItem('user', JSON.stringify(user));
-
       localStorage.setItem('users', JSON.stringify(updatedUsers));
-
 
       const flattenedUser: UserProfile = {
         id: user.id,
         username: user.user.username,
         email: user.user.email,
-        role: user.user.role ?? null
-      }
+        role: user.user.role ?? null,
+      };
 
       saveToken(token, flattenedUser);
 
@@ -161,8 +153,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
     return { userRole: null, accessLog: null };
   };
-
-
 
   const editUserById = async (id: string, updatedUser: UpdatedUserRequestBody): Promise<updateUserResponseBody | null> => {
     setLoading(true);
@@ -182,17 +172,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         });
 
         setUsers(users);
-        localStorage.setItem('users', JSON.stringify(users));
       }
-
       return updatedUserData;
-
     } catch (err) {
       setErrorFromException(err);
+      return null;
     } finally {
       setLoading(false);
     }
-    return null;
   };
 
   const removeUser = async (id: string): Promise<void> => {
@@ -202,10 +189,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     try {
       await deleteUser(id, token!);
       setUsers((prevUsers) => prevUsers.filter((user) => user.id !== Number(id)));
-      localStorage.setItem(
-        'users',
-        JSON.stringify(users.filter((user) => user.id !== Number(id)))
-      );
     } catch (err) {
       setErrorFromException(err);
     } finally {
@@ -214,13 +197,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
-    setlogoutCount((prevCount) => prevCount + 1); 
+    setLogoutCount((prevCount) => prevCount + 1);
     router.push('/');
     setCurrentUser(null);
     setToken(null);
     setUsers([]);
     localStorage.clear();
-
   };
 
   return (
@@ -242,7 +224,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         removeUser,
         userById,
         setUserById,
-        logoutCount
+        logoutCount,
       }}
     >
       {children}
@@ -257,4 +239,3 @@ export const useUserContext = () => {
   }
   return context;
 };
-

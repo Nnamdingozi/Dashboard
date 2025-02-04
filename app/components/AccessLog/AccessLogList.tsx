@@ -54,9 +54,12 @@ export const AccessLogList: React.FC<AccessLogListProps> = ({ accessLogs, users,
     <div className="max-w-4xl mx-auto p-6 w-full">
       <div className='flex justify-between mb-5'>
         <h2 className="text-3xl font-semibold mb-6 text-center">Access Logs</h2>
-        <div className="text-center mb-4">
-          <Link href="/" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+        <div className="text-center mb-4 flex space-x-4">
+          <Link href="/" className="px-4 h-8 pt-1 bg-blue-500 text-white rounded-md hover:bg-blue-600">
             Add New Log
+          </Link>
+          <Link href="/admin" className="px-4 pt-1 h-8 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+            back
           </Link>
         </div>
       </div>
@@ -89,35 +92,38 @@ export const AccessLogList: React.FC<AccessLogListProps> = ({ accessLogs, users,
               key={accessLog.id}
               className="flex items-center justify-between p-4 border rounded-lg shadow-sm hover:bg-gray-100 w-full"
             >
-              <div className="flex justify-between align-middle w-[60%] mr-8">
-                <h3 className="text-xl font-semibold">{username}</h3>
-                <p className="text-sm text-gray-500">Access Time: {accessLog.accesstime}</p>
-                <p className="text-sm text-gray-500">Access Location: {accessLog.access_locate}</p>
-              </div>
-              <div className="flex space-x-4">
-                {accessLog.id ? (
-                  <Link
-                    href={`/admin/viewLog/${encodeURIComponent(accessLog.id)}`}
-                    className="text-blue-500 hover:text-blue-700"
-                  >
-                    View
-                  </Link>
-                ) : (
-                  <span className="text-gray-400">View</span> // Display a disabled text instead
-                )}
-                <button
-                  onClick={() => onDelete(accessLog.id?.toString())}
-                  className="text-red-500 hover:text-red-700 focus:outline-none"
-                >
-                  Remove
-                </button>
-                <Link
-                  href={`/admin/userView/${accessLog.userId}`}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  View User
-                </Link>
-              </div>
+              <div className="flex items-center justify-between p-4 border rounded-lg shadow-sm hover:bg-gray-100 w-full">
+  <div className="grid grid-cols-3 gap-4 w-[70%]">
+    <h3 className="text-xl font-semibold">{username}</h3>
+    <p className="text-sm text-gray-500">Access Time: {new Date(accessLog.accesstime).toLocaleString()}</p>
+    <p className="text-sm text-gray-500">Access Location: {accessLog.access_locate}</p>
+  </div>
+  <div className="flex space-x-4">
+    {accessLog.id ? (
+      <Link
+        href={`/admin/viewLog/${encodeURIComponent(accessLog.id)}`}
+        className="text-blue-500 hover:text-blue-700"
+      >
+        View
+      </Link>
+    ) : (
+      <span className="text-gray-400">View</span>
+    )}
+    <button
+      onClick={() => onDelete(accessLog.id?.toString())}
+      className="text-red-500 hover:text-red-700 focus:outline-none"
+    >
+      Remove
+    </button>
+    <Link
+      href={`/admin/userView/${accessLog.userId}`}
+      className="text-red-500 hover:text-red-700"
+    >
+      View User
+    </Link>
+  </div>
+</div>
+
             </li>
           );
         })}
