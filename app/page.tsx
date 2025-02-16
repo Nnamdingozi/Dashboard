@@ -93,7 +93,7 @@ export default function Home() {
       {/* Main Section */}
       <div className="flex flex-col items-center justify-center px-4 sm:py-8 sm:px-6 lg:px-12 space-y-8 h-auto">
         {/* Animation Section */}
-        <div className="flex justify-between w-full max-w-4xl min-h-screen sm:flex-col" data-aos="fade-down-left">
+        <div className="flex justify-between w-full max-w-4xl  sm:flex-col" data-aos="fade-down-left">
           <div className="flex self-end">
             <div className="bg-gradient-to-br from-gray-400 via-gray-50 to-yellow-700 h-12 sm:h-16 w-12 sm:w-16 rounded-full"></div>
             <div className="bg-gradient-to-br from-red-400 via-rose-200 to-pink-700 h-12 sm:h-16 w-12 sm:w-16 rounded-full"></div>
